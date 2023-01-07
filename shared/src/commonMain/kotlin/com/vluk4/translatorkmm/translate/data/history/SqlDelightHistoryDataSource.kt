@@ -15,7 +15,6 @@ class SqlDelightHistoryDataSource(
 ) : HistoryDataSource {
 
     private val queries = db.translateQueries
-
     override fun getHistory(): CommonFlow<List<HistoryItem>> {
         return queries
             .getHistory()
