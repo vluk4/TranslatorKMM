@@ -76,10 +76,10 @@ kotlin {
 
 android {
     namespace = "com.vluk4.translatorkmm"
-    compileSdk = 32
+    compileSdk = 33
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
+        targetSdk = 33
     }
 }
 
