@@ -1,5 +1,6 @@
 package com.vluk4.translatorkmm.android.translate.presentation
 
+import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +20,8 @@ import com.vluk4.translatorkmm.android.translate.presentation.components.Transla
 import com.vluk4.translatorkmm.translate.presentation.TranslateEvent
 import com.vluk4.translatorkmm.translate.presentation.TranslateState
 import com.vluk4.translatorkmm.android.R
+import com.vluk4.translatorkmm.android.translate.presentation.components.rememberTextToSpeech
+import java.util.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -80,6 +83,7 @@ fun TranslateScreen(
             item {
                 val clipboardManager = LocalClipboardManager.current
                 val keyboardController = LocalSoftwareKeyboardController.current
+                val tts = rememberTextToSpeech()
 
                 TranslateTextField(
                     fromText = state.fromText,
@@ -109,7 +113,15 @@ fun TranslateScreen(
                     onCloseClick = {
                         onEvent(TranslateEvent.CloseTranslation)
                     },
-                    onSpeakerClick = { },
+                    onSpeakerClick = {
+                        tts.language = state.toLanguage.toLocale() ?: Locale.ENGLISH
+                        tts.speak(
+                            state.toText,
+                            TextToSpeech.QUEUE_FLUSH,
+                            null,
+                            null
+                        )
+                    },
                     onTextFieldClick = {
                         onEvent(TranslateEvent.EditTranslation)
                     },
