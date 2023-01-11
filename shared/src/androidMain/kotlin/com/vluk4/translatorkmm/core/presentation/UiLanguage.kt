@@ -19,7 +19,7 @@ actual class UiLanguage(
             Language.ITALIAN -> Locale.ITALIAN
             Language.JAPANESE -> Locale.JAPANESE
             Language.KOREAN -> Locale.KOREAN
-            else -> null
+            else -> Locale(language.langCode)
         }
     }
     actual companion object {
