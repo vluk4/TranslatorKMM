@@ -78,7 +78,7 @@ android {
     namespace = "com.vluk4.translatorkmm"
     compileSdk = 33
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
         targetSdk = 33
     }
 }
