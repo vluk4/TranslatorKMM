@@ -1,4 +1,4 @@
-package com.vluk4.translatorkmm
+package com.vluk4.translatorkmm.android
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
