@@ -17,4 +17,8 @@ class FakeHistoryDataSource: HistoryDataSource {
     override suspend fun insertHistoryItem(item: HistoryItem) {
         _data.value += item
     }
+
+    override fun deleteHistoryItem(id: Long) {
+        _data.value.toMutableList().removeIf { it.id == id }
+    }
 }
