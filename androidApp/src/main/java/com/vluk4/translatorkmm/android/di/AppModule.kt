@@ -6,8 +6,8 @@ import com.vluk4.translatorkmm.database.TranslateDatabase
 import com.vluk4.translatorkmm.translate.data.history.SqlDelightHistoryDataSource
 import com.vluk4.translatorkmm.translate.data.local.DatabaseDriverFactory
 import com.vluk4.translatorkmm.translate.data.remote.HttpClientFactory
-import com.vluk4.translatorkmm.translate.data.translate.KtorTranslateClient
-import com.vluk4.translatorkmm.translate.domain.translate.Translate
+import com.vluk4.translatorkmm.translate.data.translate.TranslateClientImpl
+import com.vluk4.translatorkmm.translate.domain.translate.usecases.TranslateUseCase
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateClient
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryDataSource
 import dagger.Module
@@ -30,7 +30,7 @@ class AppModule {
     @Provides
     @Singleton
     fun provideTranslateClient(httpClient: HttpClient): TranslateClient {
-        return KtorTranslateClient(httpClient)
+        return TranslateClientImpl(httpClient)
     }
 
     @Provides
@@ -50,7 +50,7 @@ class AppModule {
     fun provideTranslateUseCase(
         client: TranslateClient,
         dataSource: HistoryDataSource
-    ): Translate {
-        return Translate(client, dataSource)
+    ): TranslateUseCase {
+        return TranslateUseCase(client, dataSource)
     }
 }

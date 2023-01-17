@@ -2,7 +2,7 @@ package com.vluk4.translatorkmm.di
 
 import com.vluk4.translatorkmm.translate.data.local.FakeHistoryDataSource
 import com.vluk4.translatorkmm.translate.data.remote.FakeTranslateClient
-import com.vluk4.translatorkmm.translate.domain.translate.Translate
+import com.vluk4.translatorkmm.translate.domain.translate.usecases.TranslateUseCase
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateClient
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryDataSource
 import com.vluk4.translatorkmm.voicetotext.data.FakeVoiceToTextParser
@@ -34,8 +34,8 @@ class TestAppModule {
     fun provideFakeTranslateUseCase(
         client: TranslateClient,
         dataSource: HistoryDataSource
-    ): Translate {
-        return Translate(client = client, historyDataSource = dataSource)
+    ): TranslateUseCase {
+        return TranslateUseCase(client = client, historyDataSource = dataSource)
     }
 
     @Provides

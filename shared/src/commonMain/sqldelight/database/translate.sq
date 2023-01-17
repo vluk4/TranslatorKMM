@@ -23,3 +23,7 @@ INTO historyEntity(
     timestamp
 )
 VALUES (?,?,?,?,?,?);
+
+deleteHistoryById:
+DELETE FROM historyEntity
+WHERE id = :id;

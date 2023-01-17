@@ -1,11 +1,13 @@
-package com.vluk4.translatorkmm.translate.domain.translate
+package com.vluk4.translatorkmm.translate.domain.translate.usecases
 
 import com.vluk4.translatorkmm.core.domain.language.Language
 import com.vluk4.translatorkmm.core.domain.util.Resource
+import com.vluk4.translatorkmm.translate.domain.translate.TranslateClient
+import com.vluk4.translatorkmm.translate.domain.translate.TranslateException
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryDataSource
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryItem
 
-class Translate(
+class TranslateUseCase(
     private val client: TranslateClient,
     private val historyDataSource: HistoryDataSource
 ) {

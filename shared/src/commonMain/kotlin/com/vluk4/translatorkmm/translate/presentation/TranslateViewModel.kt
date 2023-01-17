@@ -3,7 +3,7 @@ package com.vluk4.translatorkmm.translate.presentation
 import com.vluk4.translatorkmm.core.domain.util.Resource
 import com.vluk4.translatorkmm.core.domain.util.toCommonStateFlow
 import com.vluk4.translatorkmm.core.presentation.UiLanguage
-import com.vluk4.translatorkmm.translate.domain.translate.Translate
+import com.vluk4.translatorkmm.translate.domain.translate.usecases.TranslateUseCase
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateException
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryDataSource
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class TranslateViewModel(
-    private val translate: Translate,
+    private val translateUseCase: TranslateUseCase,
     private val historyDataSource: HistoryDataSource,
     private val coroutineScope: CoroutineScope?
 ) {
@@ -139,6 +139,9 @@ class TranslateViewModel(
             is TranslateEvent.Translate -> {
                 translate(state.value)
             }
+            is TranslateEvent.DeleteHistoryItem -> {
+                historyDataSource.deleteHistoryItem(event.id)
+            }
             else -> Unit
         }
     }
@@ -150,7 +153,7 @@ class TranslateViewModel(
         translateJob = viewModelScope.launch {
             _state.update { it.copy(isTranslating = true) }
 
-            val result = translate.execute(
+            val result = translateUseCase.execute(
                 fromLanguage = state.fromLanguage.language,
                 fromText = state.fromText,
                 toLanguage = state.toLanguage.language

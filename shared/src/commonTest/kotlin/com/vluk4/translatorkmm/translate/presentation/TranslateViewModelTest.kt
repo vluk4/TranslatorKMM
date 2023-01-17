@@ -8,7 +8,7 @@ import assertk.assertions.isTrue
 import com.vluk4.translatorkmm.core.presentation.UiLanguage
 import com.vluk4.translatorkmm.translate.data.local.FakeHistoryDataSource
 import com.vluk4.translatorkmm.translate.data.remote.FakeTranslateClient
-import com.vluk4.translatorkmm.translate.domain.translate.Translate
+import com.vluk4.translatorkmm.translate.domain.translate.usecases.TranslateUseCase
 import com.vluk4.translatorkmm.translate.domain.translate.history.HistoryItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,11 +26,11 @@ class TranslateViewModelTest {
     fun setUp() {
         dataSource = FakeHistoryDataSource()
         client = FakeTranslateClient()
-        val translate = Translate(client = client, historyDataSource = dataSource)
+        val translateUseCase = TranslateUseCase(client = client, historyDataSource = dataSource)
 
         viewModel = TranslateViewModel(
             historyDataSource = dataSource,
-            translate = translate,
+            translateUseCase = translateUseCase,
             coroutineScope = CoroutineScope(Dispatchers.Default)
         )
     }

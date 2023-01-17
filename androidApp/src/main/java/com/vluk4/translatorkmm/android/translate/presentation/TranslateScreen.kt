@@ -2,6 +2,7 @@ package com.vluk4.translatorkmm.android.translate.presentation
 
 import android.speech.tts.TextToSpeech
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +16,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
@@ -27,7 +27,7 @@ import com.vluk4.translatorkmm.android.translate.presentation.components.*
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateError
 import java.util.*
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun TranslateScreen(
     state: TranslateState,
@@ -172,11 +172,14 @@ fun TranslateScreen(
                 }
             }
 
-            items(state.history) { item ->
+            items(items = state.history, key = { it.id }) { item ->
                 TranslateHistoryItem(
                     item = item,
-                    onClick = { onEvent(TranslateEvent.SelectHistoryItem(item)) },
-                    modifier = Modifier.fillMaxWidth()
+                    onItemClick = { onEvent(TranslateEvent.SelectHistoryItem(item)) },
+                    onDeleteClicked = { onEvent(TranslateEvent.DeleteHistoryItem(item.id)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItemPlacement()
                 )
             }
         }
