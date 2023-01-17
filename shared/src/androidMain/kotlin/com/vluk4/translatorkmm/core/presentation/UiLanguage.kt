@@ -5,7 +5,7 @@ import com.vluk4.translatorkmm.R
 import com.vluk4.translatorkmm.core.domain.language.Language
 import java.util.Locale
 
-actual class UiLanguage(
+actual data class UiLanguage(
    @DrawableRes val drawableRes: Int,
    actual val language: Language
 ) {
