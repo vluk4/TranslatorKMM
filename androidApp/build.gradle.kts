@@ -29,15 +29,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    signingConfigs {
-        create("release") {
-            storeFile =
-                file("C:\\Users\\Luca\\Desktop\\TranslatorKMM\\androidApp\\keystore\\keystore.jks")
-            storePassword = "asol@123"
-            keyPassword = "asol@123"
-            keyAlias = "translate"
-        }
-    }
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
