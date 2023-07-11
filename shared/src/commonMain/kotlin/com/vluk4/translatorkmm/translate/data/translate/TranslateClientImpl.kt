@@ -1,12 +1,14 @@
 package com.vluk4.translatorkmm.translate.data.translate
 
 import com.vluk4.translatorkmm.core.domain.language.Language
+import com.vluk4.translatorkmm.translate.data.translate.model.TranslateDto
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateClient
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateError
 import com.vluk4.translatorkmm.translate.domain.translate.TranslateException
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.FormDataContent
 import io.ktor.http.*
 import io.ktor.utils.io.errors.*
 
@@ -18,16 +20,31 @@ class TranslateClientImpl(
         fromText: String,
         toLanguage: Language
     ): String {
+
+        val url = "https://text-translator2.p.rapidapi.com/translate"
+
+        val requestBody = listOf(
+            "source_language" to fromLanguage.langCode,
+            "target_language" to toLanguage.langCode,
+            "text" to fromText
+        )
+
         val result = try {
-            httpClient.post {
-                url(urlString = "https://translate.pl-coding.com/translate")
-                contentType(ContentType.Application.Json)
-                setBody(
-                    TranslateDto(
-                        textToTranslate = fromText,
-                        sourceLanguageCode = fromLanguage.langCode,
-                        targetLanguageCode = toLanguage.langCode
+            httpClient.post(urlString = url) {
+                headers {
+                    append(
+                        HttpHeaders.ContentType,
+                        ContentType.Application.FormUrlEncoded.toString()
                     )
+                    append("X-RapidAPI-Key", "84d76fadbemshbc7172ab5557c6ep1e2522jsnfd43e049d804")
+                    append("X-RapidAPI-Host", "text-translator2.p.rapidapi.com")
+                }
+                setBody(
+                    FormDataContent(Parameters.build {
+                        requestBody.forEach { (name, value) ->
+                            append(name, value)
+                        }
+                    })
                 )
             }
         } catch (e: IOException) {
@@ -42,7 +59,7 @@ class TranslateClientImpl(
         }
 
         return runCatching {
-            result.body<TranslatedDto>().translatedText
+            result.body<TranslateDto>().translation.translatedText
         }.getOrElse {
             throw TranslateException(TranslateError.SERVER_ERROR)
         }
